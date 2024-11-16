@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图像压缩工具</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>010图像压缩工具</h1>
+        
+        <div class="upload-container" id="uploadArea">
+            <img src="up.png" class="upload-icon" alt="上传图标">
+            <p>拖拽图片到这里或点击上传</p>
+            <input type="file" id="fileInput" accept="image/*" multiple hidden>
+        </div>
+
+        <div class="controls" id="controls" style="display: none;">
+            <div class="preview-and-batch">
+                <div class="preview-section">
+                    <div class="preview-navigation">
+                        <button id="prevImage" class="nav-btn">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                        </button>
+                        <span id="imageCounter">1/1</span>
+                        <button id="nextImage" class="nav-btn">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="preview-container">
+                        <div class="preview-box">
+                            <h3>原图</h3>
+                            <img id="originalPreview" class="preview-image">
+                            <p id="originalSize"></p>
+                        </div>
+                        <div class="preview-box">
+                            <h3>压缩后</h3>
+                            <img id="compressedPreview" class="preview-image">
+                            <p id="compressedSize"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="batch-processing">
+                    <div class="batch-list-container">
+                        <div class="batch-header">
+                            <h3>批量处理列表</h3>
+                            <div class="batch-stats" id="batchStats"></div>
+                        </div>
+                        <div id="batchList" class="batch-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="compression-controls">
+                <div class="format-control">
+                    <div class="control-group">
+                        <label for="format">压缩格式：</label>
+                        <select id="format" class="format-select">
+                            <option value="webp">WebP</option>
+                            <option value="jpeg">JPEG</option>
+                            <option value="png">PNG</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="quality-control">
+                    <div class="control-group">
+                        <label for="quality">压缩质量：</label>
+                        <input type="range" id="quality" min="0" max="100" value="80">
+                        <span id="qualityValue">80%</span>
+                    </div>
+                </div>
+
+                <div class="size-control">
+                    <div class="control-group">
+                        <label for="sizeScale">缩放比例：</label>
+                        <input type="range" id="sizeScale" min="1" max="100" value="100">
+                        <span id="scaleValue">100%</span>
+                    </div>
+                </div>
+
+                <div class="naming-control">
+                    <div class="control-group">
+                        <label for="namePattern">名称格式：</label>
+                        <select id="namePattern" class="name-pattern-select">
+                            <option value="name_suffix">名称和索引</option>
+                            <option value="suffix_name">索引和名称</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="customPattern">自定义格式：</label>
+                        <input type="text" id="customPattern" class="name-format-input" value="样式">
+                    </div>
+                    <div class="control-group">
+                        <label for="startNumber">开始数字为：</label>
+                        <input type="number" id="startNumber" class="number-input" value="1" min="0">
+                    </div>
+                    <div class="name-preview">示例：样式1.jpg</div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="downloadBtn" class="download-btn">下载压缩图片</button>
+                    <button id="downloadAllBtn" class="download-btn" style="display: none;">下载所有图片</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="fullscreenPreview" class="fullscreen-preview">
+        <button class="close-btn">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" fill="none"/>
+            </svg>
+        </button>
+        <button class="nav-btn prev">
+            <svg viewBox="0 0 24 24" width="36" height="36">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none"/>
+            </svg>
+        </button>
+        <div class="fullscreen-image-container">
+            <img id="fullscreenImage">
+        </div>
+        <button class="nav-btn next">
+            <svg viewBox="0 0 24 24" width="36" height="36">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" fill="none"/>
+            </svg>
+        </button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
